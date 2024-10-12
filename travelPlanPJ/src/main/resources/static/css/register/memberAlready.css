@@ -32,7 +32,7 @@
 	height: 50px;
 }
 
-#section .sectionTop .wrap .snbBox .snb li:nth-child(1){
+#section .sectionTop .wrap .snbBox .snb li:nth-child(2){
 	background: url(/static/img/lnb_arr.png) no-repeat right center;
 }
 
@@ -44,7 +44,7 @@
 	padding-left: 20px;
 }
 
-#section .sectionTop .wrap .snbBox .snb li:nth-child(1) a{
+#section .sectionTop .wrap .snbBox .snb li:nth-child(2) a{
 	color: #005EB2;
 }
 
@@ -55,6 +55,7 @@
 
 #section .sectionTop .wrap .sectionMid .subject{
 	position: relative;
+	padding-bottom: 74px;
 }
 
 #section .sectionTop .wrap .sectionMid .subject h2{
@@ -103,7 +104,7 @@
 }
 
 #section .sectionTop .wrap .sectionMid .stepNavigation{
-	padding-top: 74px;
+	
 }
 
 #section .sectionTop .wrap .sectionMid .stepNavigation ol{

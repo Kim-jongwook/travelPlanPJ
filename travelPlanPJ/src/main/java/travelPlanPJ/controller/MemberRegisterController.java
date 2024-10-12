@@ -92,4 +92,10 @@ public class MemberRegisterController {
 			return "thymeleaf/register/memberWelcome";
 		}
 	}
+	
+	@RequestMapping(value = "loginHome", method = RequestMethod.GET)
+	public String loginHome() {
+		
+		return "thymeleaf/register/memberLogin";
+	}
 }

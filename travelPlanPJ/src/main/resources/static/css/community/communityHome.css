@@ -32,9 +32,6 @@
 	height: 50px;
 }
 
-#section .sectionTop .wrap .snbBox .snb li:nth-child(4){
-	background: url(/static/img/lnb_arr.png) no-repeat right center;
-}
 
 #section .sectionTop .wrap .snbBox .snb li a{
 	font-size: 18px;
@@ -42,10 +39,6 @@
 	text-decoration: none;
 	line-height: 50px;
 	padding-left: 20px;
-}
-
-#section .sectionTop .wrap .snbBox .snb li:nth-child(4) a{
-	color: #005EB2;
 }
 
 #section .sectionTop .wrap .sectionMid{
@@ -101,62 +94,4 @@
 	color: #fff;
 	line-height: 38px;
 	font-size: 23px;
-}
-
-#memIdHide{
-	display: none;
-}
-#section .sectionTop .wrap .sectionMid .wrap2{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	
-}
-
-#section .sectionTop .wrap .sectionMid .wrap2 img{
-	width: 20%;
-}
-
-#section .sectionTop .wrap .sectionMid .wrap2 h2{
-	font-size: 30px;
-	font-weight: bold;
-	color: #333;
-	/*text-align: center;*/
-}
-
-#section .sectionTop .wrap .sectionMid .wrap2 .tit{
-	font-size: 20px;
-	color: #333;
-}
-
-#section .sectionTop .wrap .sectionMid .wrap2 .noticeBox{
-	width: 85%;
-	height: 200px;
-	margin-bottom: 40px;
-	border: 1px solid #cdcdcd;
-	box-sizing: border-box;
-	background-color: #f8f8f9;
-	text-align: center;
-}
-
-#section .sectionTop .wrap .sectionMid .wrap2 .noticeBox h3{
-	font-size: 16px;
-	font-weight: bold;
-	color: #333;
-}
-
-#section .sectionTop .wrap .sectionMid .wrap2 .noticeBox .txt{
-	color: #555;
-	font-size: 14px;
-}
-
-#section .sectionTop .wrap .sectionMid .wrap2 .noticeBox button{
-	width: 175px;
-    height: 40px;
-    margin-top: 30px;
-    color: #fff;
-    background-color: #5692bc;
-    cursor: pointer;
-    border: none;
-    font-size: 16px;
 }

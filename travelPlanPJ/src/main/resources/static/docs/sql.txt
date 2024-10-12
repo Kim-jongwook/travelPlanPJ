@@ -1,0 +1,215 @@
+-- 회원
+CREATE TABLE member (
+	mem_num VARCHAR(10) NOT NULL,
+	mem_id VARCHAR(12) NOT NULL,
+	mem_name VARCHAR(50) NOT NULL,
+	mem_pw VARCHAR(60) NOT NULL,
+	mem_birth DATE NOT NULL,
+	mem_gender VARCHAR(1) NULL,
+	mem_phone VARCHAR(30) NOT NULL,
+	mem_email VARCHAR(40) NOT NULL,
+	mem_email_conf VARCHAR(5) NULL,
+	mem_addr VARCHAR(255) NOT NULL,
+	mem_addr_detail VARCHAR(255) NULL,
+	mem_post VARCHAR(5) NOT NULL,
+	mem_regist DATE NOT NULL
+);
+
+-- 직원
+CREATE TABLE employee (
+	emp_num VARCHAR(10) NOT NULL,
+	emp_id VARCHAR(12) NOT NULL,
+	emp_name VARCHAR(50) NOT NULL,
+	emp_pw VARCHAR(60) NOT NULL,
+	emp_jumin VARCHAR(13) NOT NULL,
+	emp_phone VARCHAR(30) NOT NULL,
+	emp_email VARCHAR(40) NULL,
+	emp_addr VARCHAR(255) NOT NULL,
+	emp_addr_detail VARCHAR(255) NULL,
+	emp_post VARCHAR(5) NOT NULL,
+	emp_hire_date DATE NOT NULL,
+	emp_resign_date DATE NULL
+);
+
+-- 계획
+CREATE TABLE plan (
+	plan_num INTEGER NOT NULL,
+	plan_title VARCHAR(50) NOT NULL,
+	plan_start_date DATE NOT NULL,
+	plan_end_date DATE NOT NULL,
+	plan_cre_date DATE NOT NULL,
+	plan_mod_date DATE NULL,
+	plan_people INTEGER NOT NULL,
+	mem_num VARCHAR(10) NOT NULL
+);
+
+-- 광역자치단체
+CREATE TABLE regional (
+	regional_num INTEGER NOT NULL,
+	regional_name VARCHAR(50) NOT NULL,
+	regional_explain VARCHAR(255) NULL
+);
+
+-- 관광지
+CREATE TABLE sight (
+	sight_num INTEGER NOT NULL,
+	sight_name VARCHAR(50) NOT NULL,
+	sight_explain VARCHAR(255) NULL,
+	sight_img varchar(255) NULL,
+	sight_link VARCHAR(255) NULL,
+	local_num INTEGER NOT NULL
+);
+
+-- 테마
+CREATE TABLE theme (
+	theme_num INTEGER NOT NULL,
+	theme_name VARCHAR(50) NOT NULL
+);
+
+-- 관광지테마
+CREATE TABLE sight_theme (
+	theme_num INTEGER NOT NULL,
+	sight_num INTEGER NOT NULL
+);
+
+-- 게시글
+CREATE TABLE post (
+	post_num INTEGER NOT NULL,
+	post_name VARCHAR(50) NOT NULL,
+	post_content VARCHAR(255) NOT NULL,
+	post_write_date DATE NOT NULL,
+	post_mod_date DATE NULL,
+	mem_num VARCHAR(10) NOT NULL
+);
+
+-- 댓글
+CREATE TABLE comment (
+	comment_num INTEGER NOT NULL,
+	post_num INTEGER NOT NULL,
+	comment_content VARCHAR(255) NOT NULL,
+	comment_date DATE NOT NULL,
+	mem_num VARCHAR(10) NOT NULL
+);
+
+-- 기초자치단체
+CREATE TABLE local (
+	local_num INTEGER NOT NULL,
+	local_name VARCHAR(50) NOT NULL,
+	local_explain VARCHAR(255) NULL,
+	regional_num INTEGER NOT NULL
+);
+
+-- 세부계획
+CREATE TABLE detail_plan (
+	detail_num INTEGER NOT NULL,
+	plan_num INTEGER NOT NULL,
+	detail_day INTEGER NOT NULL,
+	detail_content VARCHAR(255) NOT NULL,
+	sight_num INTEGER NULL
+);
+
+/* PRIMARY KEY */ 
+-- 회원 PK
+alter table member
+add constraint mem_num_pk primary key(mem_num);
+
+-- 직원 PK
+alter table employee
+add constraint emp_num_pk primary key(emp_num);
+
+-- 계획 PK
+alter table plan
+add constraint plan_num_pk primary key(plan_num);
+
+-- 광역자치단체 PK
+alter table regional
+add constraint regional_num_pk primary key(regional_num);
+
+-- 관광지 PK
+alter table sight
+add constraint sight_num_pk primary key(sight_num);
+
+-- 테마 PK
+alter table theme
+add constraint theme_num_pk primary key(theme_num);
+
+-- 관광지테마 PK
+alter table sight_theme
+add constraint theme_num_sight_num_pk primary key(theme_num, sight_num);
+
+-- 게시글 PK
+alter table post
+add constraint post_num_pk primary key(post_num);
+
+-- 댓글 PK
+alter table comment
+add constraint comment_num_post_num_pk primary key(comment_num, post_num);
+
+-- 기초자치단체 PK
+alter table local
+add constraint local_num_pk primary key(local_num);
+
+-- 세부계획 PK
+alter table detail_plan
+add constraint detail_num_plan_num_pk primary key(detail_num, plan_num);
+
+/* FOREIGN KEY */
+-- 계획 FK
+alter table plan
+add constraint plan_mem_num_fk foreign key(mem_num)
+references member(mem_num) on delete cascade;
+
+-- 관광지 FK
+alter table sight
+add constraint sight_local_num_fk foreign key(local_num)
+references local(local_num) on delete cascade;
+
+-- 관광지테마 FK
+alter table sight_theme
+add constraint sight_theme_theme_num_fk foreign key(theme_num)
+references theme(theme_num) on delete cascade;
+
+alter table sight_theme
+add constraint sight_theme_sight_num_fk foreign key(sight_num)
+references sight(sight_num) on delete cascade;
+
+-- 게시글 FK
+alter table post
+add constraint post_mem_num_fk foreign key(mem_num)
+references member(mem_num) on delete cascade;
+
+-- 댓글 FK
+alter table comment
+add constraint comment_post_num_fk foreign key(post_num)
+references post(post_num) on delete cascade;
+
+alter table comment
+add constraint comment_mem_num_fk foreign key(mem_num)
+references member(mem_num) on delete cascade;
+
+-- 기초자치단체 FK
+alter table local
+add constraint local_regional_num_fk foreign key(regional_num)
+references regional(regional_num) on delete cascade;
+
+-- 세부계획 FK
+alter table detail_plan
+add constraint detail_plan_plan_num_fk foreign key(plan_num)
+references plan(plan_num) on delete cascade;
+
+alter table detail_plan
+add constraint detail_plan_sight_num_fk foreign key(sight_num)
+references sight(sight_num)on delete set null;
+
+/* UNIQUE */
+-- 회원 UNIQUE
+alter table member
+add constraint mem_id_uu unique(mem_id),
+add constraint mem_email_uu unique(mem_email);
+
+
+-- 직원 UNIQUE
+alter table employee
+add constraint emp_id_uu unique(emp_id),
+add constraint emp_jumin_uu unique(emp_jumin),
+add constraint emp_email_uu unique(emp_email);

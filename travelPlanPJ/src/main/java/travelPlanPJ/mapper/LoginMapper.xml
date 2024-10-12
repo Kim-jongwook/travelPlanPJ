@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="travelPlanPJ.mapper.LoginMapper">
+
+<select id="loginSelect" parameterType="String" resultType="authInfo" >
+SELECT 
+	mem_id as memId
+	, mem_pw as memPw
+	, mem_name as memName
+	, 'mem' grade
+	, mem_email as userEmail
+	, mem_email_conf as userEmailCheck
+FROM member
+WHERE
+	mem_id = #{memId}
+UNION
+SELECT 
+	emp_id as memId
+	, emp_pw as memPw
+	, emp_name as memName
+	, 'emp' grade
+	, emp_email as userEmail
+	, 'T' userEmailCheck
+FROM employee
+WHERE
+	emp_id = #{memId}
+</select>
+</mapper>

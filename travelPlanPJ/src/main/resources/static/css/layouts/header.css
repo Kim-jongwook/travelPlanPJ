@@ -1,0 +1,142 @@
+@charset "UTF-8";
+
+
+#header .header_top {
+	width: 1200px;
+	position: relative;
+	margin: 0 auto;
+}
+
+#header .header_top .memInfo{
+	position: absolute;
+	right: 0;
+	top: 75px;
+	padding: 5px 10px 5px 10px;
+	background-color: #eee;
+	border-radius: 5px;
+}
+
+#header .header_top p {
+	text-align: center;
+	padding: 20px 0;
+}
+
+#header .header_top p a {
+	display: inline-block;
+}
+
+#header .header_top p a img {
+	width: auto;
+	height: 70px;
+}
+
+#header .header_top .siteMenu {
+	position: absolute;
+	top: 50px;
+	right: 5px;
+}
+
+#header .header_top .siteMenu ul li {
+	margin-left: 5px;
+	display: inline-block;
+}
+
+#header .header_top .siteMenu ul li:nth-child(2) {
+	color: #b4b4b4;
+	pointer-events: none;
+}
+
+#header .header_top .siteMenu ul li a {
+	color: #464646;
+	text-decoration: none;
+}
+
+#header .header_top .siteMenu ul li a:hover,
+#header .header_top .siteMenu ul li a:focus {
+	color: #4073cc;
+	transition: 0.3s;
+}
+
+#header .header_bottom #gnb {
+	border-top: 1px solid #e8e8e8;
+}
+
+#header .header_bottom #gnb.fixed {
+	background-color: #3780ca;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 999;
+
+}
+
+#header .header_bottom #gnb.fixed ul li a {
+	color: #fff;
+}
+
+#header .header_bottom #gnb.fixed ul li fa-home-lg{
+	color: #fff;
+}
+
+#header .header_bottom #gnb ul {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+#header .header_bottom #gnb ul li {
+	position: relative;
+	box-sizing: border-box;
+	display: inline-block;
+	height: 60px;
+	text-align: center;
+}
+
+#header .header_bottom .width25 {
+	width: calc(25% - 15px);
+}
+
+#header .header_bottom #gnb ul li:first-child {
+	background-color: #005eb2;
+	width: 60px;
+}
+#header .header_bottom #gnb ul li:not(:first-child)::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 80px;
+	height: 2px;
+	background-color: #1b57ab;
+	display: none;
+}
+
+#header .header_bottom #gnb ul li:not(:first-child):hover::after {
+	display: block;
+}
+
+#header .header_bottom #gnb ul li:not(:first-child):hover {
+	background-color: #3780ca;
+}
+
+#header .header_bottom #gnb ul li:hover a{
+	color: #fff;
+}
+
+#header .header_bottom #gnb ul li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	line-height: 60px;
+	color: #464646;
+	font-size: 20px;
+	text-decoration: none;
+}
+
+#header .header_bottom #gnb ul li .fa-home-lg {
+	vertical-align: middle;
+	font-size: 30px;
+	color: #fff;
+}

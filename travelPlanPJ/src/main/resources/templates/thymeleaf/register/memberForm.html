@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/thymeleaf/common/layouts/default_layout">
+	
+<th:block layout:fragment="contentCss">
+	<link href="/static/css/register/memberForm.css" rel="stylesheet">
+</th:block>
+
+<th:block layout:fragment="contentScript">
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="/static/js/daumAddressScript.js"></script>
+	<script src="/static/js/idEmailCheck.js"></script>
+	<script>
+		function inputNumberOnly(inputElement){
+			inputElement.value = inputElement.value.replace(/[^0-9]/g, '');
+		}
+	</script>
+</th:block>
+
+<th:block layout:fragment="content">
+	<section id="section">
+		<div class="sectionTop">
+			<div class="wrap">
+				<div class="snbBox">
+					<h3>회원정보</h3>
+					<ul class="snb">
+						<li><a href="/register/userAgree">회원가입</a></li>
+						<li><a href="/help/findId">아이디 찾기</a></li>
+						<li><a href="/help/findPw">비밀번호 재발급</a></li>
+					</ul>
+				</div>
+				<div class="sectionMid">
+					<div class="subject">
+						<h2>회원가입</h2>
+						<div class="subjectRoot">
+							<ul>
+								<li><a href="#"><i class="fal fa-home"></i>&nbsp;</a></li>
+								<li>&nbsp;>&nbsp;&nbsp;회원정보</li>
+								<li>&nbsp;>&nbsp;&nbsp;회원가입</li>
+							</ul>
+						</div>
+						<div class="subjectButton">
+							<ul>
+								<li><a href="#"><i class="fal fa-share-alt"></i></a></li>
+								<li><a href="#"><i class="fal fa-print"></i></a></li>
+							</ul>
+						</div>
+					</div><!--메뉴 경로와 상단여기까지-->
+					<div class="stepNavigation">
+						<ol>
+							<li><span class="stepNaviIndex">1</span><span class="stepNaviText">약관 동의</span></li>
+							<li><span class="stepNaviIndex">2</span><span class="stepNaviText">정보 입력</span></li>
+							<li><span class="stepNaviIndex">3</span><span class="stepNaviText">이메일 인증</span></li>
+							<li><span class="stepNaviIndex">4</span><span class="stepNaviText">가입 완료</span></li>
+						</ol>
+					</div>
+					<form action="userRegist" method="post" th:object="${memberCommand}">
+						<h3 class="tit mt30">기본정보 입력</h3>
+						<p class="txt mt10">* 표시는 필수 입력 사항입니다.</p>
+						<table class="tbl mt10">
+							<colgroup>
+								<col class="col180">
+								<col>
+							</colgroup>
+							<tbody>
+								<tr class="inputHidden"><th>회원번호</th><td><input type="text" name="memNum" th:value="${memberCommand.memNum}" readonly="readonly"></td></tr>
+								<tr><th>* 회원ID</th><td><input type="text" class="inputText wd20" name="memId" id="memId" th:value="${memberCommand.memId}">
+								<button type="button" class="btn" id="checkBtn1" onclick="checkUserId()">중복 확인</button><br>
+								<span style="color:red; font-weight: bold; display: inline-block; margin: 10px 0 0 8px;" th:if="${#fields.hasErrors('memId')}" th:errors="*{memId}"></span>
+								<span th:unless="${#fields.hasErrors('memId')}" class="noticeText">6~12자리의 영문 또는 숫자 혼용, 특수문자 제외</span></td></tr>
+								<tr><th>* 비밀번호</th><td><input type="password" class="inputText wd40" name="memPw"><br>
+								<span style="color:red; font-weight: bold; display: inline-block; margin: 10px 0 0 8px;" th:if="${#fields.hasErrors('memPw')}" th:errors="*{memPw}"></span>
+								<span th:unless="${#fields.hasErrors('memPw')}" class="noticeText">10~16자리 영문/숫자/특수문자[!@#$%^&*(),.]혼용</span></td></tr>
+								<tr><th>* 비밀번호 확인</th><td><input type="password" class="inputText wd40" name="memPwCon">
+								<span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('memPwCon')}" th:errors="*{memPwCon}"></span></td></tr>
+								<tr><th>* 성명</th><td><input type="text" class="inputText wd20" name="memName" th:value="${memberCommand.memName}">
+								<span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('memName')}" th:errors="*{memName}"></span></td></tr>
+								<tr><th>* 생년월일</th><td><input type="date" class="inputText" name="memBirth" th:value="${#dates.format(memberCommand.memBirth,'yyyy-MM-dd')}" min="0000-01-01" max="9999-12-31"></td></tr>
+								<tr><th>&nbsp;&nbsp;&nbsp;성별</th><td><input type="radio" name="memGender" value="M" 
+																		th:checked="${memberCommand.memGender == 'M' or memberCommand.memGender == null}">남&nbsp;
+																		<input type="radio" name="memGender" value="F"
+																		th:checked="${memberCommand.memGender == 'F'}">여</td></tr>
+								<tr><th>* 연락처</th><td><input type="text" class="inputText" name="memPhone" oninput="inputNumberOnly(this)" th:value="${memberCommand.memPhone}">
+								<span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('memPhone')}" th:errors="*{memPhone}"></span>
+								<span th:unless="${#fields.hasErrors('memPhone')}" class="noticeText">숫자만 입력 가능합니다</span></td></tr>
+								<tr><th>* 이메일</th><td><input type="email" class="inputText wd40" name="memEmail" id="memEmail" th:value="${memberCommand.memEmail}">
+								<button type="button" class="btn" id="checkBtn2" onclick="checkUserEmail()">중복 확인</button>
+								<span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('memEmail')}" th:errors="*{memEmail}"></span></td></tr>
+								<tr>
+									<th rowspan="3">
+										* 주소
+									</th>
+									<td>
+										<button type="button" class="btn" onclick="execDaumPostcode()">주소 검색</button>
+										<input type="text" class="inputText wd20" name="memPost" id="sample4_postcode" readonly="readonly" th:value="${memberCommand.memPost}"> <span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('memAddr')}" th:errors="*{memAddr}"></span>
+										<input type="text" class="inputText wd100 mt5" name="memAddr" id="sample4_roadAddress" readonly="readonly" th:value="${memberCommand.memAddr}">
+										<input type="text" class="inputText wd100 mt5" name="memAddrDetail" id="sample4_roadAddressDetail" th:value="${memberCommand.memAddrDetail}">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="choice">
+							<button type="button" id="btnBack" onclick="javascript:window.history.back()">뒤로 가기</button>
+							<input type="submit" id="submit" value="회원가입 신청" disabled="disabled">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</th:block>
+
+</html>

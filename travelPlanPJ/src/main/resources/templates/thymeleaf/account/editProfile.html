@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/thymeleaf/common/layouts/default_layout">
+	
+<th:block layout:fragment="contentCss">
+	<link href="/static/css/account/myInfo.css" rel="stylesheet">
+</th:block>
+
+<th:block layout:fragment="contentScript">
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="/static/js/daumAddressScript.js"></script>
+</th:block>
+
+<th:block layout:fragment="content">
+	<section id="section">
+		<div class="sectionTop">
+			<div class="wrap">
+				<div class="snbBox">
+					<h3>회원정보</h3>
+					<ul class="snb">
+						<li><a href="/account/myTravel">내 일정</a></li>
+						<li><a href="/account/myInfo">내 정보</a></li>
+						<li><a href="/account/leaveId">회원탈퇴</a></li>
+					</ul>
+				</div>
+				<div class="sectionMid">
+					<div class="subject">
+						<h2>내 정보</h2>
+						<div class="subjectRoot">
+							<ul>
+								<li><a href="#"><i class="fal fa-home"></i>&nbsp;</a></li>
+								<li>&nbsp;>&nbsp;&nbsp;회원정보</li>
+								<li>&nbsp;>&nbsp;&nbsp;내 정보</li>
+							</ul>
+						</div>
+						<div class="subjectButton">
+							<ul>
+								<li><a href="#"><i class="fal fa-share-alt"></i></a></li>
+								<li><a href="#"><i class="fal fa-print"></i></a></li>
+							</ul>
+						</div>
+					</div><!--메뉴 경로와 상단여기까지-->
+					<form action="editProfile", method="post" th:object="${memberCommand}">
+						<table class="tbl mt10">
+							<caption>내 정보 수정</caption>
+								<tbody>
+									<tr><th>회원ID</th><td><input type="text" name="memId" th:value="${memberCommand.memId}" readonly="readonly"></td></tr>
+									<tr>
+										<th>비밀번호</th>
+										<td><input type="password" name="memPw" th:value="${memberCommand.memPw}" placeholder="새 비밀번호를 입력해주세요.">
+											<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('memPw')}" th:errors="*{memPw}"></span>
+										</td>
+									</tr>
+									<tr>
+										<th>비밀번호 확인</th>
+										<td><input type="password" name="memPwCon" th:value="${memberCommand.memPwCon}" placeholder="다시 입력해주세요.">
+											<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('memPwCon')}" th:errors="*{memPwCon}"></span>
+										</td>
+									</tr>
+									<tr><th>성명</th><td><input type="text" name="memName" th:value="${memberCommand.memName}" readonly="readonly"></td></tr>
+									<tr>
+										<th>생년월일</th>
+										<td>
+											<input type="date" name="memBirth" th:value="${#dates.format(memberCommand.memBirth,'yyyy-MM-dd')}">
+											<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('memBirth')}" th:errors="*{memBirth}"></span>
+										</td>
+									</tr>
+									<tr>
+										<th>성별</th>
+										<td>
+											<input type="text" th:value="${memberCommand.memGender == 'M' ? '남자' : '여자'}" readonly="readonly">
+											<input type="hidden" name="memGender" th:value="${memberCommand.memGender}" readonly="readonly">
+										</td>
+									</tr>
+									<tr>
+										<th>연락처</th>
+										<td>
+											<input type="text" name="memPhone" th:value="${memberCommand.memPhone}"><br>
+											<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('memPhone')}" th:errors="*{memPhone}"></span>
+										</td>
+									</tr>
+									<tr><th>이메일</th><td><input type="email" name="memEmail" th:value="${memberCommand.memEmail}" readonly="readonly"></td></tr>
+									<tr>
+										<th rowspan="3">
+											주소
+										</th>
+										<td>
+											<button type="button" onclick="execDaumPostcode()">주소 검색</button>
+											<input type="text" name="memPost" id="sample4_postcode" th:value="${memberCommand.memPost}" readonly="readonly">
+											<input type="text" name="memAddr" id="sample4_roadAddress" th:value="${memberCommand.memAddr}" readonly="readonly">
+											<input type="text" name="memAddrDetail" id="sample4_roadAddressDetail" th:value="${memberCommand.memAddrDetail}"><br>
+											<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('memAddrDetail')}" th:errors="*{memAddrDetail}"></span>											
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="choice">
+							<button type="button" id="btnBack" onclick="location.href='myInfo'">뒤로 가기</button>
+							<input type="submit" id="submit" value="수정하기">
+						</div>
+						</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</th:block>
+
+</html>

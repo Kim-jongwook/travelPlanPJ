@@ -1,0 +1,350 @@
+@charset "utf-8";
+@keyframes bottomAnimation{
+	0%{
+		bottom: -100%;
+	}
+	100%{
+		bottom: 0;
+	}
+}
+@keyframes bottomAnimation2{
+	0%{
+		bottom: -100%;
+	}
+	100%{
+		bottom: 100px;
+	}
+}
+#section .sectionTop{
+	background: url(/static/img/bg_visual.jpg) no-repeat center top;
+	padding: 50px 0 60px 0;
+}
+
+#section .sectionGroup{
+	width: 1200px;
+	margin: 0 auto;
+	
+}
+
+#section .sectionTop .sectionGroup .searchBox{
+	width: 600px;
+	height: 60px;
+	margin: 0 auto;
+	display: flex;
+	background-color: rgba(0, 94, 178, 0.3);
+	border-radius: 50px;
+	padding: 5px;
+	box-shadow: 0 8px 6px -10px #b3c6ff;
+}
+
+#section .sectionTop .sectionGroup .searchBox .dropdown{
+	width: 150px;
+	border-radius: 50px 0 0 50px;
+	border-right: 2px solid #dde2f1;
+	font-size: 18px;
+	color: #757575;
+	cursor: pointer;
+	position: relative;
+}
+
+#section .sectionTop .sectionGroup .searchBox .dropdown .defaultOption{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	line-height: 60px;
+	border-radius: 50px 0 0 50px;
+	background-color: #fff;
+	user-select: none;
+}
+
+#section .sectionTop .sectionGroup .searchBox .dropdown ul{
+	position: absolute;
+	top: 65px;
+	left: -10px;
+	background-color: #fff;
+	width: 160px;
+	box-shadow: 8px 8px 6px -10px #b3c6ff;
+	display: none;
+	
+}
+
+#section .sectionTop .sectionGroup .searchBox .dropdown ul.active{
+	z-index: 2;
+	display: block;
+}
+
+#section .sectionTop .sectionGroup .searchBox .dropdown ul li{
+	text-align: center;
+	padding: 10px 0;
+}
+
+#section .sectionTop .sectionGroup .searchBox .dropdown ul li:hover{
+	color: #fff;
+	background-color: #757575;
+}
+
+#section .sectionTop .sectionGroup .searchBox .dropdown:before{
+  content: "";
+  position: absolute;
+  top: 26px;
+  right: 10px;
+  border: 8px solid;
+  border-color: #4073cc transparent transparent transparent;
+}
+
+#section .sectionTop .sectionGroup .searchBox .searchField{
+	width: 450px;
+	height: 100%;
+	position: relative;
+}
+
+#section .sectionTop .sectionGroup .searchBox .searchField .input{
+	width: 100%;
+	height: 60px;
+	box-sizing: border-box;
+	border-color: transparent;
+	border-radius: 0 50px 50px 0;
+	padding: 0 60px 0 20px;
+	font-family: 'NotoSansKR', sans-serif;
+	font-size: 18px;
+
+}
+
+#section .sectionTop .sectionGroup .searchBox .searchField .input:focus{
+	outline: none;
+}
+
+#section .sectionTop .sectionGroup .searchBox .searchField .fa-search{
+	position: absolute;
+	top: 13px;
+	right: 25px;
+	font-size: 35px;
+	cursor: pointer;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex{
+	display: flex;
+	margin-top: 45px;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .swipeBox{
+	width: 830px;
+	height: 390px;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .swipeBox .swiper{
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .swipeBox .swiper .swiper-slide{
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .swipeBox .swiper .swiper-slide img{
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox{
+	width: 370px;
+	height: 390px;
+	border: solid 1px #cdcecf;
+	box-sizing: border-box;
+	background-color: #eef0f6;
+	
+}
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox .loginFormWrap{
+	padding: 30px 35px 0;
+	
+}
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table{
+	margin: 0 auto;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table caption{
+	text-align: left;
+	padding-bottom: 12px;
+	font-size: 20px;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table th{
+	padding: 5px 0;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table .positionRel{
+	position: relative;
+}
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table .positionRel .Error{
+	display: inline-block;
+	text-align: left;
+	width: 100%;
+	height: 40px;
+	background-color: #fff;
+	border-radius: 5px;
+	position: absolute;
+	top: 5px;
+	left: 0;
+	line-height: 40px;
+	text-indent: 10px;
+	color: red;
+	font-weight: bold;
+	
+}
+
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table th input[type="text"], input[type="password"]{
+	width: 268px;
+	height: 10px;
+	padding: 15px;
+	background-color: #fff;
+	border: none;
+	border-radius: 5px;	
+	font-size: 16px;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table th input[type="submit"]{
+	width: 298px;
+	height: 40px;
+	border: none;
+	border-radius: 5px;
+	background-color: #005eb2;
+	color: #fff;
+	font-size: 19px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox .logOut{
+	display: block;
+	width: 298px;
+	height: 40px;
+	border: none;
+	border-radius: 5px;
+	background-color: #005eb2;
+	color: #fff;
+	font-size: 19px;
+	font-weight: bold;
+	cursor: pointer;
+	text-decoration: none;
+	line-height: 40px;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table th .form4{
+	display: inline-block;
+	height: 40px;
+	border-radius: 5px;
+	background-color: #6c6c6c;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table th .form4 a{
+	display: inline-block;
+	text-decoration: none;
+	color: #fff;
+	line-height: 40px;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table th .hr{
+	border-top: 1px dotted #555 ;
+	margin-bottom: 10px;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table th .form4.calc50 a{
+	width: 100%;
+	height: 100%;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table th .form4 a:first-child::before{
+	content: none;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox table th .form4 a::before{
+	content: '|';
+	font-size: 10px;
+	color: #d1d1d1;
+	vertical-align: top;
+	margin: 0 7px;
+	user-select: none;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox ul{
+	margin-top: 20px;
+	text-align: center;
+}
+
+#section .sectionTop .sectionGroup .sectionTopFlex .loginBox ul li{
+	display: inline-block;
+	width: 45%;
+	margin-bottom: 20px;
+}
+
+#section .sectionMid{
+	padding: 40px 0;
+}
+
+#section .sectionMid .sectionGroup .dummyBox{
+	width: 100%;
+	height: 1000px;
+	background-color: hotpink;
+}
+.calc50{width: calc(50% - 5px);}
+.blackWindow{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	background-color: rgb(0, 0, 0, 0.7);
+	z-index: 1;
+}
+.empWindow{
+	background: url(/static/img/empWindow.png);
+	position: fixed;
+	width: 1200px;
+	height: 176px;
+	left: 50%;
+	transform: translateX(-50%);
+	border-radius: 20px 20px 0 0;
+	animation: bottomAnimation 0.7s forwards;
+	z-index: 2;
+}
+#empBtn{
+	display: inline-block;
+	background-color: #fff;
+	color: #A92424;
+	font-size: 20px;
+	font-weight: bold;
+	position: fixed;
+	right: 360px;
+	border: none;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	z-index: 3;
+	cursor: pointer;
+	animation: bottomAnimation2 0.7s forwards;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

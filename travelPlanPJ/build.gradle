@@ -1,0 +1,57 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.13'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'travelPlanPJ'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '1.8'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
+	//thymeleaf 
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    
+    // 서버 재시작 없이 바로 적용하기  spring boot auto restar
+	implementation 'org.springframework.boot:spring-boot-devtools'
+	
+	// lombok
+	implementation 'org.projectlombok:lombok'
+	
+	// validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	
+	// security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	
+	// postgresql
+	implementation 'org.postgresql:postgresql'
+	
+	// jdbc lib for spring boot
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	
+	// mybatis
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	
+	// email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
+	// Log4j2
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

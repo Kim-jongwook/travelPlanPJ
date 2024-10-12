@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="travelPlanPJ.mapper.MemberMapper">
+
+<select id="autoNum" resultType="String">
+select concat('mem', coalesce(max(substring(mem_num, 4)::integer), 1000) + 1) 
+from member;
+</select>
+
+<select id="selectIdCheck" parameterType="String" resultType="String">
+select mem_id from member
+where mem_id = #{userId}
+union
+select emp_id from employee
+where emp_id = #{userId}
+</select>
+
+<select id="selectEmailCheck" parameterType="String" resultType="String">
+select mem_email from member
+where mem_email = #{userEmail}
+union
+select emp_email from employee
+where emp_email = #{userEmail}
+</select>
+
+<insert id="memInsert" parameterType="mem">
+insert into member(mem_num, mem_id, mem_pw, mem_name, mem_addr, mem_addr_detail, mem_post, mem_gender,
+					mem_phone, mem_email, mem_email_conf, mem_birth, mem_regist)
+values(#{memNum}, #{memId}, #{memPw}, #{memName}, #{memAddr}, #{memAddrDetail}, #{memPost}, #{memGender}, #{memPhone},
+		#{memEmail}, 'N', #{memBirth}, now())
+</insert>
+
+<update id="memCheckUpdate" parameterType="String">
+update member set mem_email_conf = 'T'
+where mem_email_conf = 'N'
+and mem_email = #{email}
+</update>
+
+<select id="selectOne" parameterType="String" resultType="mem">
+SELECT mem_num as memNum
+      ,mem_id as memId
+      ,mem_pw as memPw
+      ,mem_name as memName
+      ,mem_addr as memAddr
+      ,mem_addr_detail as memAddrDetail
+      ,mem_post as memPost
+      ,mem_gender as memGender
+      ,mem_phone as memPhone
+      ,mem_email as memEmail
+      ,mem_birth as memBirth
+      ,mem_regist as memRegist 
+FROM member
+WHERE mem_id = #{memId}
+</select>
+
+<update id="memUpdate" parameterType="mem">
+UPDATE member
+SET 
+	<if test="memPw != null and memPw != ''">mem_pw = #{memPw},</if>
+	<if test="memBirth != null">mem_birth = #{memBirth},</if>
+	<if test="memPhone != null and memPhone != ''">mem_phone = #{memPhone},</if>
+	<if test="memPost != null and memPost != ''">mem_post = #{memPost},</if>
+	<if test="memAddr != null and memAddr != ''">mem_addr = #{memAddr},</if>
+	<if test="memAddrDetail != null and memAddrDetail != ''">mem_addr_detail = #{memAddrDetail}</if>
+WHERE mem_id = #{memId}
+</update>
+
+<delete id="memDelete" parameterType="authInfo">
+DELETE
+FROM member
+WHERE 
+	mem_id= #{memId}
+AND
+	mem_name= #{memName}
+</delete>
+</mapper>

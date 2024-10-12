@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block th:fragment="headerFragment">
+	<header id="header">
+		<div class="header_top">
+			<p>
+				<a href="/">
+					<img src="/static/img/logo2.png" alt="로고">
+				</a>
+			</p>
+			<th:block th:if="${session.auth == null}">
+				<div class="siteMenu">
+					<ul>
+						<li><a href="">로그인</a></li>
+						<li> | </li>
+						<li><a href="/register/userAgree">회원가입</a></li>
+					</ul>
+				</div>
+			</th:block>
+
+			<th:block th:if="${session.auth != null}">
+				<div class="siteMenu">
+					<ul>
+						<li><a href="/login/logOut">로그아웃</a></li>
+						<li> | </li>
+						<li><a href="#">정보수정</a></li>
+					</ul>
+				</div>
+			</th:block>
+			<th:block th:if="${session.auth != null && session.auth.grade == 'emp'}">
+				<div class="memInfo">
+					<span>[[${session.auth.memName}]]([[${session.auth.memId}]])</span> | <span style="color: #da3600; font-weight: bold;">관리자</span>
+				</div>
+			</th:block>
+		</div>
+		<div class="header_bottom">
+			<div id="gnb">
+				<ul>
+					<li><a href="/"><i class="fas fa-home-lg"></i></a></li><!--
+				 --><li class="width25"><a href="#">여행지</a></li><!--
+				 --><li class="width25"><a href="#">커뮤니티</a></li><!--
+				 --><li class="width25"><a href="#">이용방법</a></li><!--
+				 --><li class="width25"><a href="#">일정만들기</a></li>
+				 </ul>
+			</div>
+		</div>
+	</header>
+</th:block>
+</body>
+</html>

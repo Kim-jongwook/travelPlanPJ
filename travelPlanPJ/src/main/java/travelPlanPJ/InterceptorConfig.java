@@ -19,7 +19,7 @@ public class InterceptorConfig implements HandlerInterceptor {
 		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
 		
 		if(ObjectUtils.isEmpty(auth)) {
-			response.sendRedirect("/");
+			response.sendRedirect("/register/loginHome");
 			return false;
 		}else {
 			return true;

@@ -1,17 +1,22 @@
 package travelPlanPJ.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import travelPlanPJ.command.LoginCommand;
 import travelPlanPJ.command.MemberCommand;
+import travelPlanPJ.service.CookiesService;
 import travelPlanPJ.service.EmailCheckService;
 import travelPlanPJ.service.IdCheckService;
 import travelPlanPJ.service.MemberAutoNumService;
@@ -35,6 +40,9 @@ public class MemberRegisterController {
 	
 	@Autowired
 	MemberWriteService memberWriteService;
+	
+	@Autowired
+	CookiesService cookiesService;
 	
 	@RequestMapping("userAgree")
 	public String agree() {
@@ -94,8 +102,8 @@ public class MemberRegisterController {
 	}
 	
 	@RequestMapping(value = "loginHome", method = RequestMethod.GET)
-	public String loginHome() {
-		
+	public String loginHome(@ModelAttribute("loginCommand")LoginCommand loginCommand, Model model, HttpServletRequest request) {
+		cookiesService.execute(request, model);
 		return "thymeleaf/register/memberLogin";
 	}
 }

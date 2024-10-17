@@ -25,7 +25,7 @@ public class FindPwSendService {
 		
 		String newPw = UUID.randomUUID().toString().substring(0, 16);
 		
-		findDTO.setMemPw(newPw);
+		findDTO.setMemPw(passwordEncoder.encode(newPw));
 		
 		findMapper.memPwUpdate(findDTO);
 		findMapper.empPwUpdate(findDTO);
@@ -35,7 +35,7 @@ public class FindPwSendService {
 				+ "<h2 style='font-weight: 700; font-size: 2rem; line-height: 2.75rem; padding-top: 64px; margin: 0;'>임시 비밀번호가 도착했습니다 :-)</h2><br>"
 				+ "<p>발급받은 임시 비밀번호로 로그인하여 꼭 안전한 비밀번호로 변경해주세요.<br>"
 				+ "임시 비밀번호는 " + newPw + "입니다.";
-		String subject = "[트래블플랜] 임시비밀번호 발급.";
+		String subject = "[트래블플랜] 임시비밀번호 발급";
 		String fromEmail = "kimzong1smtp@gmail.com";
 		String toEmail = findDTO.getMemEmail();
 		

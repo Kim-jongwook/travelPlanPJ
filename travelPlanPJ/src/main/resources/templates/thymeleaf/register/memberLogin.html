@@ -43,9 +43,34 @@
 					로그인화면
 					<div class="loginBox">
 						<div class="loginFormWrap">
-							<form action="/login/login" method="post" th:object="${loginCommand}">
-								<input type="text" name="memId" placeholder="아이디" th:value="${loginCommand.memId}">
-								<input type="password" name="memPw" placeholder="비밀번호" th:value="${loginCommand.memPw}">
+							<form action="/login/login?prePage=loginHome" method="post" th:object="${loginCommand}">
+							<table>
+								<tr>
+									<td colspan="2">
+										<input type="checkbox" name="autoLogin">로그인 유지
+										<input type="checkbox" name="idStore" th:checked="${loginCommand.idStore != null && loginCommand.idStore}">아이디 저장
+									</td>
+								</tr>
+								<tr>
+									<td><input type="text" name="memId" placeholder="아이디" th:value="${loginCommand.memId}"></td>
+									<td rowspan="2" style="vertical-align: middle;"><input type="submit" value="로그인"></td>
+								</tr>
+								<tr>
+									<td>
+										<input type="password" name="memPw" placeholder="비밀번호" th:value="${loginCommand.memPw}"><br>
+										<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('memId')}" th:errors= "*{memId}"></span><br>
+										<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('memPw')}" th:errors= "*{memPw}"></span><br>
+										<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('userEmailCheck')}" th:errors= "*{userEmailCheck}"></span>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<a href="/help/findId">아이디 찾기</a>
+										<a href="/help/findPw">비밀번호 찾기</a>
+										<a href="/register/userAgree">회원가입</a>
+									</td>
+								</tr>
+							</table>
 							</form>
 						</div>
 					</div>

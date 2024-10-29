@@ -73,19 +73,19 @@ CREATE TABLE sight_theme (
 );
 
 -- 게시글
-CREATE TABLE post (
-	post_num INTEGER NOT NULL,
-	post_name VARCHAR(50) NOT NULL,
-	post_content VARCHAR(255) NOT NULL,
-	post_write_date DATE NOT NULL,
-	post_mod_date DATE NULL,
+CREATE TABLE board (
+	board_num INTEGER NOT NULL,
+	board_name VARCHAR(50) NOT NULL,
+	board_content VARCHAR(255) NOT NULL,
+	board_write_date DATE NOT NULL,
+	board_mod_date DATE NULL,
 	mem_num VARCHAR(10) NOT NULL
 );
 
 -- 댓글
 CREATE TABLE comment (
 	comment_num INTEGER NOT NULL,
-	post_num INTEGER NOT NULL,
+	board_num INTEGER NOT NULL,
 	comment_content VARCHAR(255) NOT NULL,
 	comment_date DATE NOT NULL,
 	mem_num VARCHAR(10) NOT NULL
@@ -138,12 +138,12 @@ alter table sight_theme
 add constraint theme_num_sight_num_pk primary key(theme_num, sight_num);
 
 -- 게시글 PK
-alter table post
-add constraint post_num_pk primary key(post_num);
+alter table board
+add constraint board_num_pk primary key(board_num);
 
 -- 댓글 PK
 alter table comment
-add constraint comment_num_post_num_pk primary key(comment_num, post_num);
+add constraint comment_num_board_num_pk primary key(comment_num, board_num);
 
 -- 기초자치단체 PK
 alter table local
@@ -174,14 +174,14 @@ add constraint sight_theme_sight_num_fk foreign key(sight_num)
 references sight(sight_num) on delete cascade;
 
 -- 게시글 FK
-alter table post
-add constraint post_mem_num_fk foreign key(mem_num)
+alter table board
+add constraint board_mem_num_fk foreign key(mem_num)
 references member(mem_num) on delete cascade;
 
 -- 댓글 FK
 alter table comment
-add constraint comment_post_num_fk foreign key(post_num)
-references post(post_num) on delete cascade;
+add constraint comment_board_num_fk foreign key(board_num)
+references board(board_num) on delete cascade;
 
 alter table comment
 add constraint comment_mem_num_fk foreign key(mem_num)

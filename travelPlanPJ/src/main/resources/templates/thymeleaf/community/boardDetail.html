@@ -38,46 +38,32 @@
 						</div>
 					</div><!--메뉴 경로와 상단여기까지-->
 					
-					<div class="searchBox mb35">
-						<form action="" method="post">
-							<select class = "" id="" name="" title="">
-								<option value="title">제목</option>
-								<option value="contents">내용</option>
-								<option value="writer">작성자</option>
-							</select>
-							<input type="text" name="searchWord" placeholder="검색어 입력">
-							<input type="submit" value="검색">
-						</form>
-					</div>
-					<div class="boardWrap">
-						<table class="board">
-							<colgroup>
-								<col class="col60">
-								<col>
-								<col class="col70">
-								<col class="col120">
-							</colgroup>
-							<thead>
+					<div class="container">
+							<table>
+								<caption>게시글 내용</caption>
 								<tr>
-									<th>번호</th>
 									<th>제목</th>
-									<th>작성자</th>									
-									<th>작성일</th>									
+									<td>
+										<span>[[${dto.boardName}]]</span>
+										<br>
+									</td>
 								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="dto : ${dtos}">
-									<td><a th:href="|/community/boardDetail?boardNum=${dto.boardNum}|">[[${dto.boardNum}]]</a></td>
-									<td>[[${dto.boardName}]]</td>
-									<td>[[${dto.memNum}]]</td>
-									<td>[[${#dates.format(dto.boardWriteDate, 'yyyy-MM-dd')}]]</td>
+								<tr>
+									<th>내용</th>
+									<td>
+										<span>[[${dto.boardContent}]]</span>
+										<br>
+									</td>
 								</tr>
-							</tbody>
-						</table>
+								<tr>
+									<td colspan="2">
+										<button type="button" onclick="location.href='/community/boardList'">목록</button>
+										<button th:if="${isAuthor != null && isAuthor == true}" type="button" onclick="">수정</button>
+									</td>
+								</tr>
+							</table>
 					</div>
-					<th:block th:if="${session.auth != null && session.auth.grade == 'mem'}">
-						<button type="button" onclick="location.href='boardWrite'">글쓰기</button>
-					</th:block>
+					
 				</div>
 			</div>
 		</div>

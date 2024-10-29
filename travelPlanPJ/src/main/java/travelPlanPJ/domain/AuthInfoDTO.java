@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Alias("authInfo")
 public class AuthInfoDTO {
+	String memNum;
 	String memId;
 	String memPw;
 	String memName;

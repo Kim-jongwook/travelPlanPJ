@@ -57,7 +57,7 @@
 								</tr>
 								<tr>
 									<td>
-										<input type="password" name="memPw" placeholder="비밀번호" th:value="${loginCommand.memPw}"><br>
+										<input type="password" name="memPw" placeholder="비밀번호"><br>
 										<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('memId')}" th:errors= "*{memId}"></span><br>
 										<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('memPw')}" th:errors= "*{memPw}"></span><br>
 										<span style="color: red; font-weight: bold;" th:if="${#fields.hasErrors('userEmailCheck')}" th:errors= "*{userEmailCheck}"></span>

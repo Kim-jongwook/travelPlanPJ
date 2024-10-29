@@ -6,7 +6,8 @@
 
 <select id="loginSelect" parameterType="String" resultType="authInfo" >
 SELECT 
-	mem_id as memId
+	mem_num as memNum
+	, mem_id as memId
 	, mem_pw as memPw
 	, mem_name as memName
 	, 'mem' grade
@@ -17,7 +18,8 @@ WHERE
 	mem_id = #{memId}
 UNION
 SELECT 
-	emp_id as memId
+	emp_num as memNum
+	, emp_id as memId
 	, emp_pw as memPw
 	, emp_name as memName
 	, 'emp' grade

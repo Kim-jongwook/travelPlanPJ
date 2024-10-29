@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="travelPlanPJ.mapper.BoardMapper">
+<insert id="boardWrite" parameterType="board">
+INSERT INTO 
+board(board_num
+	,board_name
+	,board_content
+	,board_write_date
+	,mem_num)
+VALUES
+	(#{boardNum}
+	,#{boardName}
+	,#{boardContent}
+	,now()
+	,#{memNum}
+	)
+</insert>
+
+<select id="boardAutoNum" resultType="Integer">
+SELECT
+	coalesce(max(board_num), 0) + 1
+FROM
+	board
+</select>
+
+<select id="boardDetail" parameterType="Integer" resultType="board">
+SELECT 
+	board_num as boardNum
+	,board_name as boardName
+	,board_content as boardContent
+	,board_write_date as boardWriteDate
+	,board_mod_date as boardModDate
+	,mem_num as memNum
+FROM
+	board
+WHERE
+	board_num = #{boardNum}
+</select>
+
+<select id="boardList" resultType="board">
+SELECT 
+	board_num as boardNum
+	,board_name as boardName
+	,board_content as boardContent
+	,board_write_date as boardWriteDate
+	,board_mod_date as boardModDate
+	,B.mem_id as memNum
+FROM
+	board A
+JOIN 
+	member B
+ON 
+	A.mem_num = B.mem_num
+ORDER BY board_num DESC
+</select>
+</mapper>

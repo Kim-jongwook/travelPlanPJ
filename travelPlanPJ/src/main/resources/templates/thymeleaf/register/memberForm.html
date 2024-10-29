@@ -95,7 +95,7 @@
 										<button type="button" class="btn" onclick="execDaumPostcode()">주소 검색</button>
 										<input type="text" class="inputText wd20" name="memPost" id="sample4_postcode" readonly="readonly" th:value="${memberCommand.memPost}"> <span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('memAddr')}" th:errors="*{memAddr}"></span>
 										<input type="text" class="inputText wd100 mt5" name="memAddr" id="sample4_roadAddress" readonly="readonly" th:value="${memberCommand.memAddr}">
-										<input type="text" class="inputText wd100 mt5" name="memAddrDetail" id="sample4_roadAddressDetail" th:value="${memberCommand.memAddrDetail}">
+										<input type="text" class="inputText wd100 mt5" name="memAddrDetail" id="sample4_roadAddressDetail" th:value="${memberCommand.memAddrDetail}" required="required">
 									</td>
 								</tr>
 							</tbody>

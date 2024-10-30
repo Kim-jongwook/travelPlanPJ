@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import travelPlanPJ.command.BoardCommand;
 import travelPlanPJ.domain.AuthInfoDTO;
 import travelPlanPJ.domain.BoardDTO;
 import travelPlanPJ.mapper.BoardMapper;
@@ -17,14 +18,19 @@ public class BoardDetailService {
 	
 	public void execute(Integer boardNum, Model model, HttpSession session) {
 		BoardDTO dto = boardMapper.boardDetail(boardNum);
-		
+		BoardCommand boardCommand = new BoardCommand();
 		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
 		if(dto != null && auth != null) {
-			if( dto.getMemNum().equals(auth.getMemNum())) {
+			if( dto.getMemNum().equals(auth.getMemId())) {
 				model.addAttribute("isAuthor", true);
 			}
 		}
-		model.addAttribute("dto", dto);
+		boardCommand.setBoardContent(dto.getBoardContent());
+		boardCommand.setBoardModDate(dto.getBoardModDate());
+		boardCommand.setBoardName(dto.getBoardName());
+		boardCommand.setBoardNum(dto.getBoardNum());
+		boardCommand.setBoardWriteDate(dto.getBoardWriteDate());
+		boardCommand.setMemNum(dto.getMemNum());
+		model.addAttribute("boardCommand", boardCommand);
 	}
-	
 }

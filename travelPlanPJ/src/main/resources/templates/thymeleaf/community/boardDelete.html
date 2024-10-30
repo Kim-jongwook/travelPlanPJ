@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="/thymeleaf/common/layouts/default_layout">
-
+	
 <th:block layout:fragment="contentCss">
-	<link href="/static/css/help/findPw.css" rel="stylesheet">
+	<link href="/static/css/community/boardList.css" rel="stylesheet">
 </th:block>
 
 <th:block layout:fragment="contentScript">
-
 </th:block>
 
 <th:block layout:fragment="content">
@@ -15,22 +14,20 @@
 		<div class="sectionTop">
 			<div class="wrap">
 				<div class="snbBox">
-					<h3>회원정보</h3>
+					<h3>커뮤니티</h3>
 					<ul class="snb">
-						<li><a href="/register/loginHome">로그인</a></li>
-						<li><a href="/register/userAgree">회원가입</a></li>
-						<li><a href="/help/findId">아이디 찾기</a></li>
-						<li><a href="/help/findPw">비밀번호 재발급</a></li>
+						<li><a href="#">채팅방</a></li>
+						<li><a href="/community/boardList">게시판</a></li>
 					</ul>
 				</div>
 				<div class="sectionMid">
 					<div class="subject">
-						<h2>회원가입</h2>
+						<h2>게시판</h2>
 						<div class="subjectRoot">
 							<ul>
 								<li><a href="/"><i class="fal fa-home"></i>&nbsp;</a></li>
-								<li>&nbsp;>&nbsp;&nbsp;회원정보</li>
-								<li>&nbsp;>&nbsp;&nbsp;비밀번호 재발급</li>
+								<li>&nbsp;>&nbsp;&nbsp;커뮤니티</li>
+								<li>&nbsp;>&nbsp;&nbsp;게시판</li>
 							</ul>
 						</div>
 						<div class="subjectButton">
@@ -40,12 +37,29 @@
 							</ul>
 						</div>
 					</div><!--메뉴 경로와 상단여기까지-->
-					<p>비밀번호 변경이 완료되었습니다.</p>
-					<a href="/" style="font-size: 22px;">홈으로</a>
+					
+					<div class="container">
+						<form action="boardDelete" method="post">
+							<table>
+								<tr>
+									<td>
+										<input type="hidden" name="boardNum" th:value="${boardNum}">
+										<span>글을 삭제하시겠습니까?</span>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<input type="submit" value="삭제">
+										<button type="button" onclick="window.history.back()">취소</button>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					
 				</div>
 			</div>
 		</div>
 	</section>
 </th:block>
-
 </html>

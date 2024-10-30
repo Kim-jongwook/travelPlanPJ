@@ -25,7 +25,7 @@
 						<h2>게시판</h2>
 						<div class="subjectRoot">
 							<ul>
-								<li><a href="#"><i class="fal fa-home"></i>&nbsp;</a></li>
+								<li><a href="/"><i class="fal fa-home"></i>&nbsp;</a></li>
 								<li>&nbsp;>&nbsp;&nbsp;커뮤니티</li>
 								<li>&nbsp;>&nbsp;&nbsp;게시판</li>
 							</ul>
@@ -39,11 +39,11 @@
 					</div><!--메뉴 경로와 상단여기까지-->
 					
 					<div class="searchBox mb35">
-						<form action="" method="post">
-							<select class = "" id="" name="" title="">
-								<option value="title">제목</option>
-								<option value="contents">내용</option>
-								<option value="writer">작성자</option>
+						<form action="boardList" method="post">
+							<select class = "" id="" name="searchType" title="">
+								<option value="name" >제목</option>
+								<option value="content">내용</option>
+								<option value="memNum">작성자</option>
 							</select>
 							<input type="text" name="searchWord" placeholder="검색어 입력">
 							<input type="submit" value="검색">
@@ -61,7 +61,8 @@
 								<tr>
 									<th>번호</th>
 									<th>제목</th>
-									<th>작성자</th>									
+									<th>내용</th>
+									<th>작성자</th>
 									<th>작성일</th>									
 								</tr>
 							</thead>
@@ -69,6 +70,7 @@
 								<tr th:each="dto : ${dtos}">
 									<td><a th:href="|/community/boardDetail?boardNum=${dto.boardNum}|">[[${dto.boardNum}]]</a></td>
 									<td>[[${dto.boardName}]]</td>
+									<td>[[${dto.boardContent}]]</td>
 									<td>[[${dto.memNum}]]</td>
 									<td>[[${#dates.format(dto.boardWriteDate, 'yyyy-MM-dd')}]]</td>
 								</tr>

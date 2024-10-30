@@ -39,45 +39,32 @@
 					</div><!--메뉴 경로와 상단여기까지-->
 					
 					<div class="container">
+						<form action="boardUpdate" method= "post" th:object="${boardCommand}">
+							<input type="hidden" name="memNum" th:value="${boardCommand.memNum}">
+							<input type="hidden" name="boardNum" th:value="${boardCommand.boardNum}">
 							<table>
 								<tr>
 									<th>제목</th>
 									<td>
-										<span>[[${boardCommand.boardName}]]</span>
-									</td>
-								</tr>
-								<tr>
-									<th>작성자</th>
-									<td>
-										<span>[[${boardCommand.memNum}]]</span>
-									</td>
-								</tr>
-								<tr>
-									<th>등록일</th>
-									<td>
-										<span>[[${#dates.format(boardCommand.boardWriteDate, 'yyyy-MM-dd')}]]</span>
-									</td>
-								</tr>
-								<tr>
-									<th>수정일</th>
-									<td>
-										<span>[[${#dates.format(boardCommand.boardModDate, 'yyyy-MM-dd')}]]</span>
+										<input type="text" name="boardName" th:value="${boardCommand.boardName}">
+										<span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('boardName')}" th:error="*{boardName}"></span>
 									</td>
 								</tr>
 								<tr>
 									<th>내용</th>
 									<td>
-										<span>[[${boardCommand.boardContent}]]</span>
+										<input type="text" name="boardContent" th:value="${boardCommand.boardContent}">
+										<span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('boardContent')}" th:error="*{boardContent}"></span>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="2">
-										<button type="button" onclick="location.href='/community/boardList'">목록</button>
-										<a th:if="${isAuthor != null && isAuthor == true}" th:href="|boardModify?boardNum=${boardCommand.boardNum}|">수정</a>
-										<a th:if="${isAuthor != null && isAuthor == true}" th:href="|boardDelete?boardNum=${boardCommand.boardNum}|">삭제</a>
+										<input type="submit" value="등록" th:if="${isAuthor != null && isAuthor == true}">
+										<button type="button" onclick="window.history.back()">취소</button>
 									</td>
 								</tr>
 							</table>
+						</form>
 					</div>
 					
 				</div>

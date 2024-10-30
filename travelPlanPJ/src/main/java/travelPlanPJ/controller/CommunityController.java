@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import travelPlanPJ.command.BoardCommand;
 import travelPlanPJ.service.BoardDetailService;
 import travelPlanPJ.service.BoardListService;
+import travelPlanPJ.service.BoardUpdateService;
 import travelPlanPJ.service.BoardWriteService;
 import travelPlanPJ.service.BoardAutoNumService;
+import travelPlanPJ.service.BoardDeleteService;
 
 @Controller
 @RequestMapping(value = "community")
@@ -29,15 +31,21 @@ public class CommunityController {
 	BoardDetailService boardDetailService;
 	@Autowired
 	BoardListService boardListService;
+	@Autowired
+	BoardUpdateService boardUpdateService;
+	@Autowired
+	BoardDeleteService boardDeleteService;
 	
 	@RequestMapping(value = "communityHome", method = RequestMethod.GET)
 	public String home() {
 		return "thymeleaf/community/communityHome";
 	}
 
-	@RequestMapping(value = "boardList", method = RequestMethod.GET)
-	public String boardList(Model model) {
-		boardListService.execute(model);
+	@RequestMapping(value = "boardList")
+	public String boardList(@RequestParam(value = "searchType", required = false)String searchType,
+							@RequestParam(value = "searchWord", required = false)String searchWord, 
+							Model model) {
+		boardListService.execute(searchType, searchWord, model);
 		return "thymeleaf/community/boardList";
 	}
 	
@@ -60,5 +68,32 @@ public class CommunityController {
 		Integer boardAutoNum = boardAutoNumService.execute();
 		Integer boardNum = boardWriteService.execute(boardCommand, session, boardAutoNum);
 		return "redirect:boardDetail?boardNum=" + boardNum;
+	}
+	
+	@RequestMapping(value = "boardModify", method = RequestMethod.GET)
+	public String boardModify(@RequestParam(value = "boardNum")Integer boardNum, @Validated BoardCommand boardCommand, BindingResult result, Model model, HttpSession session) {
+		boardDetailService.execute(boardNum, model, session);
+		return "thymeleaf/community/boardModify";
+	}
+	
+	@RequestMapping(value = "boardUpdate", method = RequestMethod.POST)
+	public String boardUpdate(@Validated BoardCommand boardCommand, BindingResult result, HttpSession session) {
+		if(result.hasErrors()) {
+			return "thymeleaf/community/boardModify";
+		}
+		boardUpdateService.execute(boardCommand, session);
+		return "redirect:boardDetail?boardNum=" + boardCommand.getBoardNum();
+	}
+	
+	@RequestMapping(value = "boardDelete", method = RequestMethod.GET)
+	public String boardDelete(@RequestParam(value = "boardNum")Integer boardNum, Model model) {
+		model.addAttribute("boardNum", boardNum);
+		return "thymeleaf/community/boardDelete";
+	}
+	
+	@RequestMapping(value = "boardDelete", method = RequestMethod.POST)
+	public String boardDelete(@RequestParam(value = "boardNum")Integer boardNum, HttpSession session) {
+		boardDeleteService.execute(boardNum, session);
+		return "redirect:boardList";
 	}
 }

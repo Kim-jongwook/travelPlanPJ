@@ -14,8 +14,8 @@ public class BoardListService {
 	@Autowired
 	BoardMapper boardMapper;
 	
-	public void execute(Model model) {
-		List<BoardDTO> list = boardMapper.boardList();
+	public void execute(String searchType, String searchWord, Model model) {
+		List<BoardDTO> list = boardMapper.boardList(searchType, searchWord);
 		System.out.println(list);
 		model.addAttribute("dtos", list);
 		

@@ -27,7 +27,7 @@
 						<h2>내 정보</h2>
 						<div class="subjectRoot">
 							<ul>
-								<li><a href="#"><i class="fal fa-home"></i>&nbsp;</a></li>
+								<li><a href="/"><i class="fal fa-home"></i>&nbsp;</a></li>
 								<li>&nbsp;>&nbsp;&nbsp;회원정보</li>
 								<li>&nbsp;>&nbsp;&nbsp;내 정보</li>
 							</ul>
@@ -47,24 +47,20 @@
 								<col>
 							</colgroup>
 							<tbody>
-								<tr><th>회원ID</th><td><input type="text" name="memId" th:value="${memberCommand.memId}" readonly="readonly"></td></tr>
-								<tr><th>비밀번호</th><td><input type="password" name="memPw" readonly="readonly"></td></tr>
-								<tr><th>성명</th><td><input type="text" name="memName" th:value="${memberCommand.memName}" readonly="readonly"></td></tr>
-								<tr><th>생년월일</th><td><input type="date" name="memBirth" th:value="${#dates.format(memberCommand.memBirth,'yyyy-MM-dd')}" readonly="readonly"></td></tr>
-								<tr><th>성별</th><td><input type="radio" name="memGender" value="M" 
-																		th:checked="${memberCommand.memGender == 'M'}">남&nbsp;
-																		<input type="radio" name="memGender" value="F"
-																		th:checked="${memberCommand.memGender == 'F'}" readonly="readonly">여</td></tr>
-								<tr><th>연락처</th><td><input type="text" name="memPhone" th:value="${memberCommand.memPhone}" readonly="readonly">
-								<tr><th>이메일</th><td><input type="email" name="memEmail" th:value="${memberCommand.memEmail}" readonly="readonly"></td></tr>
+								<tr><th>회원ID</th><td>[[${memberCommand.memId}]]</td></tr>
+								<tr><th>성명</th><td>[[${memberCommand.memName}]]</td></tr>
+								<tr><th>생년월일</th><td>[[${#dates.format(memberCommand.memBirth, 'yyyy-MM-dd')}]]</td></tr>
+								<tr><th>성별</th><td th:if="${memberCommand.memGender == 'M'}">남자</td><td th:if="${memberCommand.memGender == 'F'}">여자</td></tr>
+								<tr><th>연락처</th><td>[[${memberCommand.memPhone}]]</td>
+								<tr><th>이메일</th><td>[[${memberCommand.memEmail}]]</td></tr>
 								<tr>
 									<th rowspan="3">
 										주소
 									</th>
 									<td>
-										<input type="text" name="memPost" th:value="${memberCommand.memPost}" readonly="readonly">
-										<input type="text" name="memAddr" th:value="${memberCommand.memAddr}" readonly="readonly">
-										<input type="text" name="memAddrDetail" th:value="${memberCommand.memAddrDetail}" readonly="readonly">
+										[[${memberCommand.memPost}]]<br>
+										[[${memberCommand.memAddr}]]<br>
+										[[${memberCommand.memAddrDetail}]]<br>
 									</td>
 								</tr>
 							</tbody>

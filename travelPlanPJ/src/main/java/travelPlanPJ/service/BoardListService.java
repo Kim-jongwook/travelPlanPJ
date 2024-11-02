@@ -7,17 +7,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import travelPlanPJ.domain.BoardDTO;
+import travelPlanPJ.domain.PagingDTO;
 import travelPlanPJ.mapper.BoardMapper;
 
 @Service
 public class BoardListService {
 	@Autowired
 	BoardMapper boardMapper;
+	@Autowired
+	PagingService pagingService;
 	
-	public void execute(String searchType, String searchWord, Model model) {
-		List<BoardDTO> list = boardMapper.boardList(searchType, searchWord);
-		System.out.println(list);
-		model.addAttribute("dtos", list);
+	public void execute(String searchType, String searchWord, Model model, int page) {
+		if(searchWord != null && !searchWord.equals("")) {
+			searchWord = searchWord.trim();
+		}
+		PagingDTO paging = pagingService.execute(page, searchType, searchWord);
 		
+		List<BoardDTO> list = boardMapper.boardList(paging);
+		model.addAttribute("dtos", list);
+
+		int count = boardMapper.boardCount(paging);
+		pagingService.execute(page, count, model, searchType, searchWord);
 	}
 }

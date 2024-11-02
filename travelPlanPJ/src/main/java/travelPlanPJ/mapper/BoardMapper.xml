@@ -44,20 +44,21 @@ AND
 	board_num = #{boardNum}
 </select>
 
-<select id="boardList" resultType="board">
-SELECT 
-	board_num as boardNum
-	,board_name as boardName
-	,board_content as boardContent
-	,board_write_date as boardWriteDate
-	,board_mod_date as boardModDate
-	,B.mem_id as memNum
+<select id="boardList" parameterType="paging" resultType="board">
+SELECT
+	*
+FROM
+	(SELECT ROW_NUMBER() OVER (ORDER BY board_num DESC) AS rn
+	,board_num AS boardNum
+	,board_name AS boardName
+	,board_content AS boardContent
+	,board_write_date AS boardWriteDate
+	,board_mod_date AS boardModDate
+	,B.mem_id AS memNum
 FROM
 	board A
 JOIN 
-	member B
-ON 
-	A.mem_num = B.mem_num
+	member B ON A.mem_num = B.mem_num
 <if test="searchType != null and searchType != ''">
 WHERE
 	<choose>
@@ -72,7 +73,32 @@ WHERE
 		</when>
 	</choose>
 </if>
-ORDER BY board_num DESC
+) sub1
+WHERE
+	rn BETWEEN #{startRow} AND #{endRow}
+</select>
+
+<select id="boardCount" parameterType="paging" resultType="integer">
+SELECT
+	COUNT(*)
+FROM
+	board A
+JOIN
+	member B ON A.mem_num = B.mem_num
+<if test="searchType != null and searchType != ''">
+WHERE
+	<choose>
+		<when test="searchType == 'name'">
+			board_name LIKE CONCAT('%', #{searchWord}, '%')
+		</when>
+		<when test="searchType == 'content'">
+			board_content LIKE CONCAT('%', #{searchWord}, '%')
+		</when>
+		<when test="searchType == 'memNum'">
+			B.mem_id LIKE CONCAT('%', #{searchWord}, '%')
+		</when>
+	</choose>
+</if>
 </select>
 
 <update id="boardUpdate" parameterType="board">

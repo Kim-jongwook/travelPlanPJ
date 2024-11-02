@@ -42,10 +42,11 @@ public class CommunityController {
 	}
 
 	@RequestMapping(value = "boardList")
-	public String boardList(@RequestParam(value = "searchType", required = false)String searchType,
-							@RequestParam(value = "searchWord", required = false)String searchWord, 
+	public String boardList(@RequestParam(value = "searchType", required = false, defaultValue = "")String searchType,
+							@RequestParam(value = "searchWord", required = false, defaultValue = "")String searchWord,
+							@RequestParam(value = "page", required = false, defaultValue = "1")int page,
 							Model model) {
-		boardListService.execute(searchType, searchWord, model);
+		boardListService.execute(searchType, searchWord, model, page);
 		return "thymeleaf/community/boardList";
 	}
 	

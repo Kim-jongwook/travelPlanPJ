@@ -20,4 +20,5 @@ public class BoardCommand {
 	Date boardModDate;
 	
 	String memNum;
+	String memId;
 }

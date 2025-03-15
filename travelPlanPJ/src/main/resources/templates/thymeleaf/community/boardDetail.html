@@ -3,10 +3,25 @@
 	layout:decorate="/thymeleaf/common/layouts/default_layout">
 	
 <th:block layout:fragment="contentCss">
-	<link href="/static/css/community/boardList.css" rel="stylesheet">
+	<link href="/static/css/community/boardDetail.css" rel="stylesheet">
 </th:block>
 
 <th:block layout:fragment="contentScript">
+<script>
+	function formSubmit(){
+		if($("#comment_content").val().trim() == ""){
+			alert("내용을 입력해주세요.");
+		}else{
+			$("#commentWriteform").submit();
+		}
+	}
+	
+	function confirmDelete(){
+		var result = confirm("정말 삭제하시겠습니까?");
+
+		return result;
+	}
+</script>
 </th:block>
 
 <th:block layout:fragment="content">
@@ -38,48 +53,80 @@
 						</div>
 					</div><!--메뉴 경로와 상단여기까지-->
 					
-					<div class="container">
-							<table>
-								<tr>
-									<th>제목</th>
-									<td>
-										<span>[[${boardCommand.boardName}]]</span>
-									</td>
-								</tr>
-								<tr>
-									<th>작성자</th>
-									<td>
-										<span>[[${boardCommand.memNum}]]</span>
-									</td>
-								</tr>
-								<tr>
-									<th>등록일</th>
-									<td>
-										<span>[[${#dates.format(boardCommand.boardWriteDate, 'yyyy-MM-dd')}]]</span>
-									</td>
-								</tr>
-								<tr>
-									<th>수정일</th>
-									<td>
-										<span>[[${#dates.format(boardCommand.boardModDate, 'yyyy-MM-dd')}]]</span>
-									</td>
-								</tr>
-								<tr>
-									<th>내용</th>
-									<td>
-										<span>[[${boardCommand.boardContent}]]</span>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<button type="button" onclick="location.href='/community/boardList'">목록</button>
-										<a th:if="${isAuthor != null && isAuthor == true}" th:href="|boardModify?boardNum=${boardCommand.boardNum}|">수정</a>
-										<a th:if="${isAuthor != null && isAuthor == true}" th:href="|boardDelete?boardNum=${boardCommand.boardNum}|">삭제</a>
-									</td>
-								</tr>
-							</table>
+					<div class="article_container">
+						<div class="article_header">
+							<div class="article_title">
+								<h3 class="title_text">[[${boardCommand.boardName}]]</h3>
+							</div>
+							<div class="writer_info">
+								<div class="profile_info">
+									<span class="writer">
+										[[${boardCommand.memId}]]
+									</span>
+								</div>
+								<div class="article_info">
+									<span class="date">
+										[[${#dates.format(boardCommand.boardWriteDate, 'yyyy-MM-dd')}]]
+									</span>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="article_content">
+							<span class="content">
+								[[${boardCommand.boardContent}]]
+							</span>
+						</div>
+						<div class="article_button">
+							<button type="button" onclick="location.href='/community/boardList'">목록</button>
+							<a th:if="${boardAuthor != null && boardAuthor == true}" th:href="|boardModify?boardNum=${boardCommand.boardNum}|">수정</a>
+							<a th:if="${boardAuthor != null && boardAuthor == true}" th:href="|boardDelete?boardNum=${boardCommand.boardNum}|">삭제</a>
+						</div>
 					</div>
-					
+					<div class="comment_container">
+						<div class="comment_list" th:each="dto : ${dtos}">
+							<span>[[${dto.memId}]]</span>
+							<span>[[${dto.commentContent}]]</span>
+							<span>[[${#dates.format(dto.commentDate, 'yyyy-MM-dd HH:mm')}]]</span>
+							<th:block th:if="${session.auth != null && session.auth.memId == dto.memId}">
+								<button type="button">
+									<img src="/static/img/icon_dot_pc.png" alt="더보기">
+								</button>
+								<ul class="comment_tool">
+									<li>
+										<a href="">
+											수정
+										</a>
+										<form action="commentModify" method="post">
+										<input type="hidden" name="boardNum" th:value="${dto.boardNum}" readonly="readonly">
+										<input type="hidden" name="memNum" th:value="${dto.memNum}" readonly="readonly">
+										<input type="hidden" name="commentNum" th:value="${dto.commentNum}" readonly="readonly">
+										<textarea name="commentContent"rows="3" cols="100" maxlength="255" placeholder="댓글을 입력해주세요">[[${dto.commentContent}]]</textarea>
+										<button type="button" onclick="">취소</button>
+										<button type="submit">등록</button>
+										<a onclick="return confirmDelete()" th:href="|commentDelete?boardNum=${dto.boardNum}&commentNum=${dto.commentNum}&memNum=${dto.memNum}|">삭제</a>
+										</form>
+									</li>
+									
+									<li>삭제</li>
+								</ul>
+							</th:block>
+						</div>
+						<div class="comment_register" style="border:2px solid #eee;">
+							<th:block th:if="${session.auth == null}">
+								<a href="/register/loginHome">지금 로그인하고 댓글을 작성해보세요.</a>
+							</th:block>
+							<th:block th:if="${session.auth != null}">
+								<span class="writer">[[${session.auth.memId}]]</span>
+								<form id="commentWriteform" action="commentWrite" method="post">
+									<input type="hidden" name="boardNum" th:value="${boardCommand.boardNum}" readonly="readonly">
+									<input type="hidden" name="memNum" th:value="${session.auth.memNum}">
+									<textarea name="commentContent" id="comment_content" rows="3" cols="100" maxlength="255" placeholder="댓글을 입력해주세요"></textarea>
+								<input type="button" onclick="formSubmit()" value="등록">
+								</form>
+							</th:block>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

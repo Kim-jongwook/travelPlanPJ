@@ -28,12 +28,13 @@ FROM
 
 <select id="boardDetail" parameterType="Integer" resultType="board">
 SELECT 
-	board_num as boardNum
-	,board_name as boardName
-	,board_content as boardContent
-	,board_write_date as boardWriteDate
-	,board_mod_date as boardModDate
-	,B.mem_id as memNum
+	A.board_num as boardNum
+	,A.board_name as boardName
+	,A.board_content as boardContent
+	,A.board_write_date as boardWriteDate
+	,A.board_mod_date as boardModDate
+	,A.mem_num as memNum
+	,B.mem_id as memId
 FROM
 	board A
 JOIN
@@ -49,12 +50,13 @@ SELECT
 	*
 FROM
 	(SELECT ROW_NUMBER() OVER (ORDER BY board_num DESC) AS rn
-	,board_num AS boardNum
-	,board_name AS boardName
-	,board_content AS boardContent
-	,board_write_date AS boardWriteDate
-	,board_mod_date AS boardModDate
-	,B.mem_id AS memNum
+	,A.board_num AS boardNum
+	,A.board_name AS boardName
+	,A.board_content AS boardContent
+	,A.board_write_date AS boardWriteDate
+	,A.board_mod_date AS boardModDate
+	,A.mem_num AS memNum
+	,B.mem_id AS memId
 FROM
 	board A
 JOIN 
@@ -111,11 +113,73 @@ SET
 WHERE
 	board_num = #{boardNum}
 </update>
+
 <delete id="boardDelete" parameterType="Integer">
 DELETE
 FROM
 	board
 WHERE
 	board_num = #{boardNum}
+</delete>
+
+<select id="commentAutoNum" resultType="Integer">
+SELECT 
+	coalesce(max(comment_num),0) + 1
+FROM
+	comment
+</select>
+<insert id="commentWrite" parameterType="comment">
+INSERT INTO 
+comment
+		(comment_num
+		,board_num
+		,comment_content
+		,comment_date
+		,mem_num)
+VALUES
+		(#{commentNum}
+		,#{boardNum}
+		,#{commentContent}
+		,now()
+		,#{memNum})
+</insert>
+<select id="commentList" parameterType="Integer" resultType="comment">
+SELECT
+	A.comment_num AS commentNum
+	,A.board_num AS boardNum
+	,A.comment_content AS commentContent
+	,A.comment_date AS commentDate
+	,A.mem_num AS memNum
+	,B.mem_id AS memId
+FROM
+	comment A
+JOIN
+	member B ON A.mem_num = B.mem_num
+WHERE
+	A.board_num = #{boardNum}
+ORDER BY A.comment_num
+</select>
+<update id="commentModify" parameterType="comment">
+UPDATE 
+	comment
+SET comment_content = #{commentContent}
+WHERE 
+	board_num = #{boardNum}
+AND 
+	mem_num = #{memNum}
+AND
+	comment_num = #{commentNum}
+</update>
+
+<delete id="commentDelete" parameterType="map">
+DELETE
+FROM
+	comment
+WHERE
+	board_num = #{boardNum}
+AND
+	comment_num = #{commentNum}
+AND
+	mem_num = #{memNum}
 </delete>
 </mapper>

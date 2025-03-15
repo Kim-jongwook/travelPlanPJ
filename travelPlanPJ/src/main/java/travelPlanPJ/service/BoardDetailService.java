@@ -21,8 +21,8 @@ public class BoardDetailService {
 		BoardCommand boardCommand = new BoardCommand();
 		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
 		if(dto != null && auth != null) {
-			if( dto.getMemNum().equals(auth.getMemId())) {
-				model.addAttribute("isAuthor", true);
+			if( dto.getMemNum().equals(auth.getMemNum())) {
+				model.addAttribute("boardAuthor", true);
 			}
 		}
 		boardCommand.setBoardContent(dto.getBoardContent());
@@ -31,6 +31,7 @@ public class BoardDetailService {
 		boardCommand.setBoardNum(dto.getBoardNum());
 		boardCommand.setBoardWriteDate(dto.getBoardWriteDate());
 		boardCommand.setMemNum(dto.getMemNum());
+		boardCommand.setMemId(dto.getMemId());
 		model.addAttribute("boardCommand", boardCommand);
 	}
 }

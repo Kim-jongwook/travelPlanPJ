@@ -7,13 +7,12 @@ import org.apache.ibatis.type.Alias;
 import lombok.Data;
 
 @Data
-@Alias("board")
-public class BoardDTO {
+@Alias("comment")
+public class CommentDTO {
+	Integer commentNum;
 	Integer boardNum;
-	String boardName;
-	String boardContent;
-	Date boardWriteDate;
-	Date boardModDate;
+	String commentContent;
+	Date commentDate;
 	String memNum;
 	String memId;
 }

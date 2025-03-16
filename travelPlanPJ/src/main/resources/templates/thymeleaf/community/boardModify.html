@@ -39,7 +39,7 @@
 					</div><!--메뉴 경로와 상단여기까지-->
 					
 					<div class="container">
-						<form action="boardUpdate" method= "post" th:object="${boardCommand}">
+						<form action="boardModify" method= "post" th:object="${boardCommand}">
 							<input type="hidden" name="memNum" th:value="${boardCommand.memNum}">
 							<input type="hidden" name="boardNum" th:value="${boardCommand.boardNum}">
 							<table>
@@ -47,14 +47,14 @@
 									<th>제목</th>
 									<td>
 										<input type="text" name="boardName" th:value="${boardCommand.boardName}">
-										<span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('boardName')}" th:error="*{boardName}"></span>
+										<span style="color:red; font-weight: bold;" th:if="${boardNameError}">[[${boardNameError}]]</span>
 									</td>
 								</tr>
 								<tr>
 									<th>내용</th>
 									<td>
 										<input type="text" name="boardContent" th:value="${boardCommand.boardContent}">
-										<span style="color:red; font-weight: bold;" th:if="${#fields.hasErrors('boardContent')}" th:error="*{boardContent}"></span>
+										<span style="color:red; font-weight: bold;" th:if="${boardContentError}">[[${boardContentError}]]</span>
 									</td>
 								</tr>
 								<tr>

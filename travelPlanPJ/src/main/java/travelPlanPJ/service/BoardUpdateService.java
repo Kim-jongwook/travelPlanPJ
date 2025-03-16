@@ -24,7 +24,7 @@ public class BoardUpdateService {
 		AuthInfoDTO auth = (AuthInfoDTO) session.getAttribute("auth");
 		
 		if(dto != null && auth != null) {
-			if(dto.getMemNum().equals(auth.getMemId())) {
+			if(dto.getMemNum().equals(auth.getMemNum())) {
 				//이때 매퍼 실행
 				boardMapper.boardUpdate(dto);
 			}else {

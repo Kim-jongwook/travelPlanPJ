@@ -56,17 +56,17 @@
 					<div class="article_container">
 						<div class="article_header">
 							<div class="article_title">
-								<h3 class="title_text">[[${boardCommand.boardName}]]</h3>
+								<h3 class="title_text bold fs25">[[${boardCommand.boardName}]]</h3>
 							</div>
 							<div class="writer_info">
-								<div class="profile_info">
-									<span class="writer">
+								<div class="profile_info mt10">
+									<span class="writer bold fs13">
 										[[${boardCommand.memId}]]
 									</span>
 								</div>
 								<div class="article_info">
-									<span class="date">
-										[[${#dates.format(boardCommand.boardWriteDate, 'yyyy-MM-dd')}]]
+									<span class="date fs13">
+										[[${#dates.format(boardCommand.boardWriteDate, 'yyyy-MM-dd. HH:mm')}]]
 									</span>
 								</div>
 							</div>
@@ -84,34 +84,40 @@
 						</div>
 					</div>
 					<div class="comment_container">
-						<div class="comment_list" th:each="dto : ${dtos}">
-							<span>[[${dto.memId}]]</span>
-							<span>[[${dto.commentContent}]]</span>
-							<span>[[${#dates.format(dto.commentDate, 'yyyy-MM-dd HH:mm')}]]</span>
-							<th:block th:if="${session.auth != null && session.auth.memId == dto.memId}">
-								<button type="button">
-									<img src="/static/img/icon_dot_pc.png" alt="더보기">
-								</button>
-								<ul class="comment_tool">
-									<li>
-										<a href="">
-											수정
-										</a>
-										<form action="commentModify" method="post">
-										<input type="hidden" name="boardNum" th:value="${dto.boardNum}" readonly="readonly">
-										<input type="hidden" name="memNum" th:value="${dto.memNum}" readonly="readonly">
-										<input type="hidden" name="commentNum" th:value="${dto.commentNum}" readonly="readonly">
-										<textarea name="commentContent"rows="3" cols="100" maxlength="255" placeholder="댓글을 입력해주세요">[[${dto.commentContent}]]</textarea>
-										<button type="button" onclick="">취소</button>
-										<button type="submit">등록</button>
-										<a onclick="return confirmDelete()" th:href="|commentDelete?boardNum=${dto.boardNum}&commentNum=${dto.commentNum}&memNum=${dto.memNum}|">삭제</a>
-										</form>
-									</li>
+						<ul class="comment_list">
+							<li class="comment_item" th:each="dto : ${dtos}">
+								<span>[[${dto.memId}]]</span>
+								<span>[[${dto.commentContent}]]</span>
+								<span>[[${#dates.format(dto.commentDate, 'yyyy-MM-dd. HH:mm')}]]</span>
+								<th:block th:if="${session.auth != null && session.auth.memId == dto.memId}">
+									<div class="comment_tool">
+										<button type="button">
+											<img src="/static/img/icon_dot_pc.png" alt="더보기">
+										</button>
+										<div class="layer_more">
+											<ul>
+												<li>
+													<a href="">수정</a> 
+												</li>
+												<li>
+													<a onclick="return confirmDelete()" th:href="|commentDelete?boardNum=${dto.boardNum}&commentNum=${dto.commentNum}&memNum=${dto.memNum}|">삭제</a>
+												</li>
+											</ul>
+										</div>
+									</div>
 									
-									<li>삭제</li>
-								</ul>
-							</th:block>
-						</div>
+									<div>
+										<form action="commentModify" method="post">
+											<input type="hidden" name="boardNum" th:value="${dto.boardNum}" readonly="readonly">
+											<input type="hidden" name="memNum" th:value="${dto.memNum}" readonly="readonly">
+											<input type="hidden" name="commentNum" th:value="${dto.commentNum}" readonly="readonly">
+											<textarea name="commentContent"rows="3" cols="100" maxlength="255" placeholder="댓글을 입력해주세요">[[${dto.commentContent}]]</textarea>
+											<button type="submit">등록</button>
+										</form>
+									</div>
+								</th:block>
+							</li>
+							</ul>
 						<div class="comment_register" style="border:2px solid #eee;">
 							<th:block th:if="${session.auth == null}">
 								<a href="/register/loginHome">지금 로그인하고 댓글을 작성해보세요.</a>

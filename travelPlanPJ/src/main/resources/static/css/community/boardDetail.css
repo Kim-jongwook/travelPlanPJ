@@ -104,9 +104,43 @@
 }
 /*여기까지*/
 
-#section .sectionMid .comment_container .comment_list .comment_tool{
+#section .sectionTop .wrap .sectionMid .article_container{
+	border: 1px solid #eee;
 }
 
+#section .sectionTop .wrap .sectionMid .article_container .article_header .article_title{
+}
+
+#section .sectionMid .comment_container .comment_list .comment_item{
+	padding: 14px 23px 14px 0;
+	
+}
+
+#section .sectionMid .comment_container .comment_list .comment_tool{
+	position: relative;
+	display: inline-block;
+	width: 50px;
+}
+
+#section .sectionMid .comment_container .comment_list .comment_tool{
+	position: relative;
+	display: inline-block;
+	width: 50px;
+}
+
+#section .sectionMid .comment_container .comment_list .comment_tool ul{
+	position: absolute;
+	top: 30px;
+}
+
+#section .sectionMid .comment_container .comment_list .comment_tool ul li{
+	
+}
+
+#section .sectionMid .comment_container .comment_list .comment_tool ul li a{
+	color: #000;
+	text-decoration: none;
+}
 .col60{
 	width: 60px;
 }
@@ -116,3 +150,43 @@
 .col120{
 	width: 120px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

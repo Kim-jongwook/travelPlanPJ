@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import travelPlanPJ.command.BoardCommand;
 import travelPlanPJ.command.CommentCommand;
@@ -89,15 +90,22 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value = "boardModify", method = RequestMethod.GET)
-	public String boardModify(@RequestParam(value = "boardNum")Integer boardNum, @Validated BoardCommand boardCommand, BindingResult result, Model model, HttpSession session) {
+	public String boardModify(@RequestParam(value = "boardNum")Integer boardNum, Model model, HttpSession session) {
 		boardDetailService.execute(boardNum, model, session);
 		return "thymeleaf/community/boardModify";
 	}
 	
-	@RequestMapping(value = "boardUpdate", method = RequestMethod.POST)
-	public String boardUpdate(@Validated BoardCommand boardCommand, BindingResult result, HttpSession session) {
+	@RequestMapping(value = "boardModify", method = RequestMethod.POST)
+	public String boardModify(@Validated BoardCommand boardCommand, BindingResult result, HttpSession session
+							  , Model model, RedirectAttributes redirectAttributes) {
 		if(result.hasErrors()) {
-			return "thymeleaf/community/boardModify";
+			if(result.hasFieldErrors("boardName")) {
+				redirectAttributes.addFlashAttribute("boardNameError", result.getFieldError("boardName").getDefaultMessage());
+			}
+			if(result.hasFieldErrors("boardContent")) {
+				redirectAttributes.addFlashAttribute("boardContentError", result.getFieldError("boardContent").getDefaultMessage());
+			}
+			return "redirect:boardModify?boardNum=" + boardCommand.getBoardNum();
 		}
 		boardUpdateService.execute(boardCommand, session);
 		return "redirect:boardDetail?boardNum=" + boardCommand.getBoardNum();

@@ -19,7 +19,7 @@ public class BoardDeleteService {
 		BoardDTO dto = boardMapper.boardDetail(boardNum);
 		
 		if(dto != null && auth != null) {
-			if(dto.getMemNum().equals(auth.getMemId())) {
+			if(dto.getMemId().equals(auth.getMemId())) {
 				boardMapper.boardDelete(dto.getBoardNum());
 			}
 		}

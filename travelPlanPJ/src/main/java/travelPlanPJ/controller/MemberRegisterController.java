@@ -56,7 +56,8 @@ public class MemberRegisterController {
 	}
 	
 	@PostMapping("userIdCheck")
-	public @ResponseBody String userIdCheck(@RequestParam(value = "userId") String userId ) {
+	@ResponseBody
+	public String userIdCheck(@RequestParam(value = "userId") String userId ) {
 		String resultId = idCheckService.execute(userId);
 		if(resultId == null) {
 			return "사용가능한 아이디입니다.";
@@ -66,7 +67,8 @@ public class MemberRegisterController {
 	}
 	
 	@PostMapping("userEmailCheck")
-	public @ResponseBody String userEmailCheck(@RequestParam(value = "userEmail") String userEmail) {
+	@ResponseBody
+	public String userEmailCheck(@RequestParam(value = "userEmail") String userEmail) {
 		String resultEmail = emailCheckService.execute(userEmail);
 		
 		if(resultEmail == null) {

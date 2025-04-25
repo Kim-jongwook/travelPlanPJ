@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="/thymeleaf/common/layouts/default_layout">
+
+<th:block layout:fragment="contentCss">
+	<link href="/static/css/community/chatList.css" rel="stylesheet">
+</th:block>
+
+<th:block layout:fragment="contentScript">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+<script th:inline= "javascript">
+	var stompClient;
+	var chatNum;
+	var sessionMemNum = [[${session.auth.memNum}]];
+	var sessionMemId = [[${session.auth.memId}]];
+	var isSubscribed;
+
+	function connect(){
+		console.log("connect() 실행");
+		var socket = new SockJS("/ws");
+		stompClient = Stomp.over(socket);
+		stompClient.connect({}, function(){
+			loadChatRooms();
+		});
+	}
+	
+	function loadChatRooms(){
+		console.log("loadChatRooms() 실행");
+		$.ajax({
+			url: "/community/chat/readRooms",
+			type: "get",
+			success: function(rooms){
+				var chatList = $("#chatRooms");
+				chatList.empty();
+				console.log(rooms);
+				for(var i = 0; i < rooms.length; i++){
+					var room = rooms[i];
+					var li = $("<li></li>");
+					var button = $("<button type='button'></button>").text(room.chatName).attr("onclick", "enterRoom(" + room.chatNum + ", '" + room.chatName + "')");
+					li.append(button);
+					chatList.append(li);
+					console.log("loadChatRooms() 종료");
+				}
+			}
+		});
+	}
+	
+	function enterRoom(roomNum, roomName){
+		console.log("enterRoom 실행");
+		chatNum = roomNum;
+		if(isSubscribed){
+			if(confirm("접속중인 방을 나가고 새로운 방에 입장하시겠습니까?")){
+				isSubscribed.unsubscribe();
+				$("#messages").empty();
+			}else{
+				return;
+			}
+		}
+		$("#roomTitle").text("채팅방 #" + roomName + "에 입장하였습니다.");
+		isSubscribed = stompClient.subscribe("/topic/chat/" + chatNum, function(message){
+			var msg = JSON.parse(message.body);
+			var li = $("<li></li>").text(msg.memId + ": " + msg.msgContent);
+			$("#messages").append(li);
+		});
+		console.log(isSubscribed);
+	}
+	
+	function sendMessage(){
+		console.log("sendMessage() 실행");
+		var msg = $("#message").val();
+		stompClient.send("/app/chat/" + chatNum, {}, JSON.stringify({
+			memId: sessionMemId,
+			msgContent: msg
+		}));
+		$("#message").val("");
+	}
+	
+	function createRoom(){
+		console.log("createRoom() 실행");
+		var roomName = $("#newRoomName").val();
+		$.ajax({
+			url: "/community/chat/createRoom",
+			type: "post",
+			contentType: "application/json",
+			data: JSON.stringify({
+				chatName: roomName,
+				chatState: true
+			}),
+			success: function(){
+				loadChatRooms();
+				$("#newRoomName").val("");
+			}
+		});
+	}
+	
+	$(document).ready(function(){
+		connect();
+	});
+</script>
+</th:block>
+
+<th:block layout:fragment="content">
+	<section id="section">
+		<div class="sectionTop">
+			<div class="wrap">
+				<div class="snbBox">
+					<h3>커뮤니티</h3>
+					<ul class="snb">
+						<li><a href="/community/chatHome">채팅방</a></li>
+						<li><a href="/community/boardList">게시판</a></li>
+					</ul>
+				</div>
+				<div class="sectionMid">
+					<div class="subject">
+						<h2>게시판</h2>
+						<div class="subjectRoot">
+							<ul>
+								<li><a href="/"><i class="fal fa-home"></i>&nbsp;</a></li>
+								<li>&nbsp;>&nbsp;&nbsp;커뮤니티</li>
+								<li>&nbsp;>&nbsp;&nbsp;게시판</li>
+							</ul>
+						</div>
+						<div class="subjectButton">
+							<ul>
+								<li><a href="#"><i class="fal fa-share-alt"></i></a></li>
+								<li><a href="#"><i class="fal fa-print"></i></a></li>
+							</ul>
+						</div>
+					</div><!--메뉴 경로와 상단여기까지-->
+					<div class="chat_container">
+						<div class="chat_list">
+							<h2>채팅방 목록</h2>
+							<ul id="chatRooms"></ul>
+							<input type="text" id="newRoomName" placeholder="채팅방 이름">
+							<button type="button" onclick="createRoom()">채팅방 개설</button>
+						</div>
+						
+						<div class="msg_container">
+							<div class="msg_list">
+								<h2 id="roomTitle"></h2>
+								<ul id="messages"></ul>
+							</div>
+							
+							<div class="msg_write_form">
+								<h2>메시지 작성폼</h2>
+								<input type="text" name="memId" id="mem_id">
+								<textarea name="msgContent" id="message" placeholder="메세지를 입력하세요"></textarea>
+								<button type="button" onclick="sendMessage()">전송</button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</th:block>
+</html>

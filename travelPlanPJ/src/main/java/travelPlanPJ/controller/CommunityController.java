@@ -1,5 +1,7 @@
 package travelPlanPJ.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +13,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import travelPlanPJ.command.BoardCommand;
 import travelPlanPJ.command.CommentCommand;
+import travelPlanPJ.domain.ChatRoomDTO;
 import travelPlanPJ.service.BoardAutoNumService;
 import travelPlanPJ.service.BoardDeleteService;
 import travelPlanPJ.service.BoardDetailService;
 import travelPlanPJ.service.BoardListService;
 import travelPlanPJ.service.BoardUpdateService;
 import travelPlanPJ.service.BoardWriteService;
+import travelPlanPJ.service.ChatListService;
 import travelPlanPJ.service.CommentAutoNumService;
 import travelPlanPJ.service.CommentDeleteService;
 import travelPlanPJ.service.CommentListService;
@@ -52,6 +57,8 @@ public class CommunityController {
 	CommentModifyService commentModifyService;
 	@Autowired
 	CommentDeleteService commentDeleteService;
+	@Autowired
+	ChatListService chatListService;
 	
 	@RequestMapping(value = "communityHome", method = RequestMethod.GET)
 	public String home() {
@@ -141,4 +148,52 @@ public class CommunityController {
 		commentDeleteService.execute(boardNum, commentNum, memNum, session);
 		return "redirect:boardDetail?boardNum=" + boardNum;
 	}
+	
+	/* 채팅  */
+	
+	@RequestMapping(value = "chatHome", method = RequestMethod.GET)
+	public String chatHome() {
+		
+		return "thymeleaf/community/chatHome";
+	}
+	
+	@RequestMapping(value = "chat/readRooms", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ChatRoomDTO> chatList() {
+		System.out.println("chatList실행!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		return chatListService.execute();
+	}
+	
+	@RequestMapping(value = "chat/createRoom")
+	public void createRoom() {
+		
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

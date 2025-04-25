@@ -20,7 +20,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		excludeList.add("/help/**/*");
 		excludeList.add("/login/**/*");
 		excludeList.add("/static/**/*"); //CSS, FONT, JS 등 정적 자원은 허용
-		excludeList.add("/community/**/*");
+		
+		excludeList.add("/community/communityHome");
+		excludeList.add("/community/boardList");
+		excludeList.add("/community/boardList/**/*");
+		excludeList.add("/community/boardDetail");
+		excludeList.add("/community/boardDetail/**/*");
+		
 		//excludeList.add("/admin/**/*"); 관리자 차단 여부 테스트하기
 		registry.addInterceptor(interceptorConfig)
 				.addPathPatterns("/**/*")
